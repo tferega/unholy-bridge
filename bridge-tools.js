@@ -1,15 +1,18 @@
-/* Recursevly crawls through all components of the specified applet, and returns
- * basic information about them.
- * Arguments
- *   c: Applet to crawl through. Has to be a reference to DOM applet or object
- *      element.
- *   returns: A string containing path to the element, its class name, its value
- *            and its text (if applicable).
+/* Recursively crawls through all components of the specified applet, and
+ * returns basic information about them.
+ *
+ * c
+ *   Applet to crawl through. Has to be a reference to DOM applet or object
+ *   element.
+ * returns
+ *   A string containing information about all components in the specified
+ *   applet. Each line contains information about one component: path to the
+ *   element, its class name, its value and its text (if applicable).
  */
 function appletCrawler(c) {
   var report = "";
 
-  // This function returns report entry for a given component.
+  // Returns report entry for a given component.
   function format(c, padding) {
     var name = c.getName();
     var type = c.getClass().getSimpleName();
@@ -18,7 +21,7 @@ function appletCrawler(c) {
     return padding +": "+ "["+ type + "] "+ name + text + "\n";
   }
 
-  // This function does the actual crawling.
+  // Does the actual crawling.
   function crawl(c, padding) {
     report += format(c, padding);
 
@@ -37,11 +40,13 @@ function appletCrawler(c) {
 
 
 
-/* Returns class names for all parents of the specifies component
- * Arguments
- * target: Component for which to return parent class name. Has to be a
- *         reference to a component inside the java applent.
- * returns: A string containing names for all superclasses.
+/* Returns class names for all ancestors (supers) of the specified component.
+ *
+ * target
+ *   Component for which to return parent class names. Has to be a reference to
+ *   a component inside a java applet.
+ * returns
+ *   A string containing names for all superclasses, one per line.
  */
 function superChain(target) {
   var report = "";
@@ -57,15 +62,19 @@ function superChain(target) {
 
 
 /* Finds a component by its path.
- * Arguments
- *   c: Applet within which to search. Has to be a reference to DOM applet or
- *      object element.
- *   path: A component path (as returned by appletCrawler)
- *         Format: "a.b.c.d.", where a, b, c and d are numbers representing
- *                 indexes in the component children array.
- *                 "0.6.2." would reference third child of a seventh child of
- *                 a first child of the root node (the applet itsef).
- *   returns: A reference to the found component.
+ *
+ * c
+ *   Applet within which to search. Has to be a reference to DOM applet or
+ *   object element.
+ * path
+ *   A component path (as returned by appletCrawler)
+ *   Format:
+ *     "a.b.c.d.", where a, b, c and d are numbers representing indexes in the
+ *     component children array.
+ *     "0.6.2." would reference third child of a seventh child of a first child
+ *     of the root node (the applet itself).
+ * returns
+ *   A reference to the found component.
  */
 function findComponent(c, path) {
   var dotPos = path.indexOf(".", 0);
@@ -84,16 +93,20 @@ function findComponent(c, path) {
 
 
 
-/*
- * Enters given text into the specified component.
+/* Enters given text into the specified component.
  * More precisely, it sends a series of java.awt.event.KeyEvent.KEY_TYPED events
  * to the component.
- * Arguments
- *   c: Applet containing the target component. Has to be a reference to DOM
- *      applet or object element.
- *   target: Component to which to send the text.
- *   text: text to send.
- *   returns: undefined.
+ * Note: it will append the text.
+ *
+ * c
+ *   Applet containing the target component. Has to be a reference to DOM applet
+ *   or object element.
+ * target
+ *   Component to which to send the text.
+ * text
+ *   The text to send.
+ * returns
+ *   undefined.
  */
 function typeText(c, target, text) {
   var KE = c.Packages.java.awt.event.KeyEvent;
